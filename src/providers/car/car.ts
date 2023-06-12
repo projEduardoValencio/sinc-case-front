@@ -1,8 +1,8 @@
-import { IClient } from "@/interface/IClient";
+import { ICar } from "@/interface/ICar";
 import api from "../api";
 
-class Client {
-  route: string = "/client";
+class Car {
+  route: string = "/car";
 
   async list() {
     try {
@@ -14,9 +14,9 @@ class Client {
     }
   }
 
-  async getByCPF(cpf: string) {
+  async getByPlate(plate: string) {
     try {
-      const response = await api.get(`${this.route}?search=${cpf}`);
+      const response = await api.get(this.route + `?search=${plate}`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -24,18 +24,19 @@ class Client {
     }
   }
 
-  async create(client: IClient) {
+  async create(car: ICar) {
     try {
-      await api.post(this.route, client);
+      const response = await api.post(this.route, car);
+      return response.data;
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  async update(id: number, newClient: IClient) {
+  async update(id: number, car: ICar) {
     try {
-      const response = await api.put(`${this.route}?id=${id}`, newClient);
+      const response = await api.put(this.route + `?id=${id}`, car);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -45,7 +46,7 @@ class Client {
 
   async delete(id: number) {
     try {
-      const response = await api.delete(`${this.route}?id=${id}`);
+      const response = await api.delete(this.route + `?id=${id}`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -54,5 +55,5 @@ class Client {
   }
 }
 
-const client = new Client();
-export default client;
+const car = new Car();
+export default car;
