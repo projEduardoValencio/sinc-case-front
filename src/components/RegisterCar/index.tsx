@@ -1,4 +1,4 @@
-import client from "@/providers/client/client";
+import car from "@/providers/car/car";
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
@@ -7,7 +7,7 @@ import { CircularProgress } from "@chakra-ui/progress";
 import { useToast } from "@chakra-ui/toast";
 import { useState } from "react";
 
-const RegisterClient: React.FC = () => {
+const RegisterCar: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const toast = useToast();
   const _submitForm = async (e: any) => {
@@ -15,14 +15,15 @@ const RegisterClient: React.FC = () => {
 
     setIsLoading(true);
     try {
-      await client.create({
-        name: e.target.name.value,
-        email: e.target.email.value,
-        phone: e.target.phone.value,
-        cpf: e.target.cpf.value,
+      await car.create({
+        plate: e.target.plate.value,
+        model: e.target.model.value,
+        brand: e.target.brand.value,
+        current_km: e.target.current_km.value,
+        vehicle_year: e.target.vehicle_year.value,
       });
       toast({
-        title: "Cliente Registrado",
+        title: "Veiculo Registrado",
         status: "success",
         isClosable: true,
       });
@@ -40,7 +41,7 @@ const RegisterClient: React.FC = () => {
 
   return (
     <Flex
-      className="new-client"
+      className="new-car"
       direction={["column"]}
       color={"black"}
       height={"100%"}
@@ -52,11 +53,11 @@ const RegisterClient: React.FC = () => {
         textAlign={["center"]}
         textTransform={"uppercase"}
       >
-        Registrar Cliente
+        Registrar Veiculo
       </Text>
 
       <Flex
-        className="register-client-form"
+        className="register-car-form"
         as={"form"}
         width={["100%"]}
         height={["100%"]}
@@ -68,23 +69,28 @@ const RegisterClient: React.FC = () => {
       >
         <Flex direction={"column"} gap={["10px"]}>
           <FormControl>
-            <FormLabel>Nome</FormLabel>
-            <Input name="name" type="text" bg={"gray.200"} />
+            <FormLabel>Placa</FormLabel>
+            <Input name="plate" type="text" bg={"gray.200"} />
           </FormControl>
 
           <FormControl>
-            <FormLabel>E-mail</FormLabel>
-            <Input name="email" type="email" bg={"gray.200"} />
+            <FormLabel>Modelo</FormLabel>
+            <Input name="model" type="text" bg={"gray.200"} />
           </FormControl>
 
           <FormControl>
-            <FormLabel>Telefone</FormLabel>
-            <Input name="phone" type="tel" bg={"gray.200"} />
+            <FormLabel>Marca</FormLabel>
+            <Input name="brand" type="text" bg={"gray.200"} />
           </FormControl>
 
           <FormControl>
-            <FormLabel>Cpf</FormLabel>
-            <Input name="cpf" type="number" bg={"gray.200"} />
+            <FormLabel>KM Atual</FormLabel>
+            <Input name="current_km" type="number" bg={"gray.200"} />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Ano do Veiculo</FormLabel>
+            <Input name="vehicle_year" type="month" bg={"gray.200"} />
           </FormControl>
         </Flex>
 
@@ -104,4 +110,4 @@ const RegisterClient: React.FC = () => {
   );
 };
 
-export default RegisterClient;
+export default RegisterCar;
