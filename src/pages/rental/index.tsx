@@ -19,23 +19,19 @@ import {
 import { useEffect, useState } from "react";
 import car from "@/providers/car/car";
 import { ICarResponse } from "@/interface/ICar";
-import { clearSelectedClient } from "@/utils/localStorage/car";
-import ClientStep from "@/components/NewRental/ClientStep";
+import DateStep from "@/components/NewRental/DateStep";
 
-const steps = [
+export const steps = [
   { title: "Datas", description: "Data de locação" },
   { title: "Carro", description: "Selecionar carro" },
   { title: "Cliente", description: "Dados do cliente" },
+  { title: "Confirmar", description: "Revisar e enviar" },
 ];
 
 export default function Home() {
   const toast = useToast();
   const [cars, setCars] = useState<ICarResponse[]>([]);
   const [step, setStep] = useState<number>(0);
-  const { activeStep } = useSteps({
-    index: step,
-    count: steps.length,
-  });
 
   useEffect(() => {
     car
@@ -74,7 +70,7 @@ export default function Home() {
           as={"form"}
           direction={["column"]}
           width={["900px"]}
-          height={["88%"]}
+          height={["auto"]}
           background={"white"}
           borderRadius={"10px"}
           align={["center"]}
@@ -86,7 +82,7 @@ export default function Home() {
             Nova Locação
           </Text>
 
-          <Stepper index={activeStep} width={["640px"]} height={["100%"]}>
+          <Stepper index={step} width={["640px"]} height={["100%"]}>
             {steps.map((step, index) => (
               <Step key={index}>
                 <StepIndicator borderColor={"gray.300"}>
@@ -109,38 +105,8 @@ export default function Home() {
             ))}
           </Stepper>
 
-          <ClientStep step={step} setStep={setStep} />
-
-          <Flex
-            display={step !== 0 ? "flex" : "none"}
-            className="action-buttons"
-            direction={["row"]}
-            height={["100px"]}
-            justify={"space-between"}
-          >
-            <Button
-              variant={"primary"}
-              background={"red"}
-              height={["30px"]}
-              color={"white"}
-              width={"140px"}
-              onClick={() => {
-                clearSelectedClient();
-              }}
-            >
-              Remover Estado
-            </Button>
-            <Button
-              variant={"primary"}
-              background={"primary"}
-              height={["30px"]}
-              color={"white"}
-              width={["140px"]}
-              onClick={() => setStep((prev) => prev - 1)}
-            >
-              Voltar Passo
-            </Button>
-          </Flex>
+          {/* <ClientStep step={step} setStep={setStep} /> */}
+          <DateStep step={step} setStep={setStep} />
         </Flex>
       </Flex>
     </Flex>

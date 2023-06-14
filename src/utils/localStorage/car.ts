@@ -1,25 +1,24 @@
-import { IClientResponse } from "@/interface/IClient";
-import { clientKey } from "./keys";
+import { carKey } from "./keys";
+import { ICarResponse } from "@/interface/ICar";
 
-export const setSelectedClient = (client: IClientResponse): boolean => {
+export const setSelectedCar = (car: ICarResponse) => {
   try {
-    localStorage.setItem(clientKey, JSON.stringify(client));
-    return true;
+    localStorage.setItem(carKey, JSON.stringify(car));
   } catch (error) {
-    console.log("Error setting selected Client", error);
-    return false;
+    console.log("Error setting selected Car", error);
+    throw new Error("Error setting selected Car");
   }
 };
 
-export const getSelectedClient = (): IClientResponse => {
+export const getSelectedCar = (): ICarResponse => {
   try {
-    return JSON.parse(localStorage.getItem(clientKey) || "") as IClientResponse;
+    return JSON.parse(localStorage.getItem(carKey) || "") as ICarResponse;
   } catch (error) {
-    console.log("Error getting selected Client", error);
-    throw new Error("Error getting selected Client");
+    console.log("Error getting selected Car", error);
+    throw new Error("Error getting selected Car");
   }
 };
 
-export const clearSelectedClient = () => {
-  localStorage.removeItem(clientKey);
+export const clearSelectedCar = () => {
+  localStorage.removeItem(carKey);
 };
