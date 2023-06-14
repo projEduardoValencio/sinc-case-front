@@ -9,7 +9,7 @@ const SideMenu = () => {
       </Link>
       {/* <Box width={["10px"]} height={["100%"]} bg={"white"} /> */}
       <Divider orientation="vertical" height={["50%"]} />
-      <Link className="nav-item" href={"/view"}>
+      <Link className="nav-item" href={"/list"}>
         Listagem
       </Link>
       <Divider orientation="vertical" height={["50%"]} />

@@ -53,7 +53,7 @@ export default function Home() {
             </Link>
             <Link
               className="nav-item-main"
-              href={"/view"}
+              href={"/list"}
               style={{ textAlign: "center", width: "200px" }}
             >
               Listagem

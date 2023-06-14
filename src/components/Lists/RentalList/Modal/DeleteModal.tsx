@@ -109,11 +109,13 @@ const DeleteRentalModal: FC<Props> = ({
             <Flex direction={["row"]} gap={["40px"]}>
               <Text>
                 <b>Data de Retirada:</b> <br />{" "}
-                {new Date(_rental!.startDate).toLocaleDateString()}
+                {_rental
+                  ? new Date(_rental.startDate).toLocaleDateString()
+                  : ""}
               </Text>
               <Text>
                 <b>Data de Devolução:</b> <br />{" "}
-                {new Date(_rental!.endDate).toLocaleDateString()}
+                {_rental ? new Date(_rental!.endDate).toLocaleDateString() : ""}
               </Text>
             </Flex>
           </Flex>
