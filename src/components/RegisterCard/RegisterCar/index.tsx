@@ -20,7 +20,7 @@ const RegisterCar: React.FC = () => {
         model: e.target.model.value,
         brand: e.target.brand.value,
         current_km: e.target.current_km.value,
-        vehicle_year: e.target.vehicle_year.value,
+        vehicle_year: new Date(e.target.vehicle_year.value),
       });
       toast({
         title: "Veiculo Registrado",
