@@ -1,5 +1,8 @@
+import { ICarResponse } from "@/interface/ICar";
+import { ICarRentalResponse } from "@/interface/ICarRental";
 import { IClientResponse } from "@/interface/IClient";
 import client from "@/providers/client/client";
+import rental from "@/providers/rental/rental";
 import {
   Text,
   Modal,
@@ -7,26 +10,37 @@ import {
   ModalOverlay,
   Flex,
   Button,
+  CircularProgress,
+  useToast,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  client: IClientResponse | undefined;
-  updateClient: () => void;
+  rental: ICarRentalResponse | undefined;
+  updateRental: () => void;
 }
-const DeleteClientModal: FC<Props> = ({
+const DeleteRentalModal: FC<Props> = ({
   isOpen,
   onClose,
-  client: _client,
-  updateClient,
+  rental: _rental,
+  updateRental,
 }) => {
+  const toast = useToast();
+  useEffect(() => {
+    console.log(_rental);
+  });
   const handleDelete = async () => {
-    if (_client) {
-      await client.delete(_client.id);
-      await updateClient();
-      onClose();
+    if (_rental) {
+      try {
+        await rental.delete(_rental.id);
+        await updateRental();
+        toast({ title: "Locação deletada com sucesso", status: "success" });
+        onClose();
+      } catch (error) {
+        toast({ title: "Erro ao deletar locação", status: "error" });
+      }
     }
   };
 
@@ -40,8 +54,8 @@ const DeleteClientModal: FC<Props> = ({
         alignItems={["center"]}
       >
         <Flex
-          width={["500px"]}
-          height={["500px"]}
+          width={["800px"]}
+          height={["700px"]}
           direction={["column"]}
           justify={["center"]}
           background={"white"}
@@ -60,18 +74,48 @@ const DeleteClientModal: FC<Props> = ({
             fontSize={["24px"]}
             gap={["10px"]}
           >
-            <Text>
-              <b>Nome:</b> <br /> {_client?.name}
-            </Text>
-            <Text>
-              <b>E-mail:</b> <br /> {_client?.email}
-            </Text>
-            <Text>
-              <b>Cel:</b> <br /> {_client?.phone}
-            </Text>
-            <Text>
-              <b>CPF:</b> <br /> {_client?.cpf}
-            </Text>
+            <Flex direction={["row"]} gap={["190px"]}>
+              <Flex direction={["column"]}>
+                <Text fontSize={["34px"]}>Cliente</Text>
+                <Text>
+                  <b>Nome:</b> <br /> {_rental?.client?.name}
+                </Text>
+                <Text>
+                  <b>E-mail:</b> <br /> {_rental?.client?.email}
+                </Text>
+                <Text>
+                  <b>CPF:</b> <br /> {_rental?.client?.cpf}
+                </Text>
+                <Text>
+                  <b>Cel:</b> <br /> {_rental?.client?.phone}
+                </Text>
+              </Flex>
+
+              <Flex direction={["column"]}>
+                <Text fontSize={["34px"]}>Carro</Text>
+                <Text>
+                  <b>Placa:</b> <br /> {_rental?.car?.plate}
+                </Text>
+                <Text>
+                  <b>Modelo:</b> <br /> {_rental?.car?.model}
+                </Text>
+                <Text>
+                  <b>Marca:</b> <br /> {_rental?.car?.brand}
+                </Text>
+              </Flex>
+            </Flex>
+
+            <Text fontSize={["34px"]}>Locação</Text>
+            <Flex direction={["row"]} gap={["40px"]}>
+              <Text>
+                <b>Data de Retirada:</b> <br />{" "}
+                {new Date(_rental!.startDate).toLocaleDateString()}
+              </Text>
+              <Text>
+                <b>Data de Devolução:</b> <br />{" "}
+                {new Date(_rental!.endDate).toLocaleDateString()}
+              </Text>
+            </Flex>
           </Flex>
 
           <Flex direction={["row"]} color={"white"} justify={["space-between"]}>
@@ -92,4 +136,4 @@ const DeleteClientModal: FC<Props> = ({
   );
 };
 
-export default DeleteClientModal;
+export default DeleteRentalModal;

@@ -5,6 +5,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { useState } from "react";
 import ClientsList from "@/components/Lists/ClientsList";
 import CarsList from "@/components/Lists/CarList";
+import RentalList from "@/components/Lists/RentalList";
 
 export default function Home() {
   const [tabIndex, setTabIndex] = useState<number>(0);
@@ -30,7 +31,7 @@ export default function Home() {
           onChange={(index) => setTabIndex(index)}
           overflow={"hidden"}
         >
-          <TabList width={["100%"]} background={"gray.100"}>
+          <TabList width={["100%"]} background={"gray.100"} height={["60px"]}>
             <Tab width={"100%"}>Clientes</Tab>
             <Tab width={"100%"}>Carros</Tab>
             <Tab width={"100%"}>Locações</Tab>
@@ -46,7 +47,7 @@ export default function Home() {
             </TabPanel>
 
             <TabPanel width={"inherit"} height={"100%"}>
-              Locações
+              <RentalList />
             </TabPanel>
           </TabPanels>
         </Tabs>

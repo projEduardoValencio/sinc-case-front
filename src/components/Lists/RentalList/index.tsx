@@ -7,11 +7,19 @@ import { useEffect, useState } from "react";
 import DeleteModal from "./Modal/DeleteModal";
 import DeleteClientModal from "./Modal/DeleteModal";
 import EditClientModal from "./Modal/EditModelClient";
+import { ICarRental, ICarRentalResponse } from "@/interface/ICarRental";
+import rental from "@/providers/rental/rental";
+import { ICarResponse } from "@/interface/ICar";
+import car from "@/providers/car/car";
 
-const ClientsList = () => {
+const RentalList = () => {
   const toast = useToast();
+  const [rentals, setRentals] = useState<ICarRentalResponse[]>();
   const [clients, setClients] = useState<IClientResponse[]>();
+  const [cars, setCars] = useState<ICarResponse[]>();
+  const [selectedRental, setSelectedRental] = useState<ICarRentalResponse>();
   const [selectedClient, setSelectedClient] = useState<IClientResponse>();
+  const [selectedCar, setSelectedCar] = useState<ICarResponse>();
 
   const {
     isOpen: deleteIsOpen,
@@ -19,36 +27,36 @@ const ClientsList = () => {
     onClose: deleteOnClose,
   } = useDisclosure();
 
-  const {
-    isOpen: updateIsOpen,
-    onOpen: updateOnOpen,
-    onClose: updateOnClose,
-  } = useDisclosure();
-
   useEffect(() => {
-    updateClient();
+    updateRental();
   }, []);
 
-  const updateClient = async () => {
+  const updateRental = async () => {
     await client
       .list()
-      .then((_clients) => setClients(_clients))
+      .then((_rentals) => setClients(_rentals))
       .catch((error) =>
         toast({ title: "Erro ao requisitar clients", status: "error" })
       );
+    await car
+      .list()
+      .then((_cars) => setCars(_cars))
+      .catch((error) =>
+        toast({ title: "Erro ao requisitar cars", status: "error" })
+      );
+    await rental
+      .listAll()
+      .then((_rentals) => setRentals(_rentals))
+      .catch((error) =>
+        toast({ title: "Erro ao requisitar locações", status: "error" })
+      );
   };
 
-  const handleDelete = (_client: IClientResponse) => {
-    setSelectedClient(_client);
+  const handleDelete = (_rental: ICarRentalResponse) => {
+    setSelectedRental(_rental);
+
     deleteOnOpen();
   };
-
-  const handleUpdate = (_client: IClientResponse) => {
-    setSelectedClient(_client);
-    updateOnOpen();
-  };
-
-  useEffect(() => {}, [selectedClient]);
 
   return (
     <Flex
@@ -60,54 +68,43 @@ const ClientsList = () => {
       borderRadius={["10px"]}
     >
       <DeleteClientModal
-        client={selectedClient}
+        rental={selectedRental}
         isOpen={deleteIsOpen}
         onClose={deleteOnClose}
-        updateClient={updateClient}
+        updateRental={updateRental}
       />
 
-      <EditClientModal
-        client={selectedClient}
-        isOpen={updateIsOpen}
-        onClose={updateOnClose}
-        updateClient={updateClient}
-      />
+      {rentals?.map((_rental, key) => {
+        return (
+          <Flex
+            key={key}
+            width={["100%"]}
+            height={["60px"]}
+            paddingX={["20px"]}
+            paddingY={["10px"]}
+            background={"cover"}
+            borderRadius={["10px"]}
+            justify={["space-between"]}
+            align={["center"]}
+          >
+            <Flex direction={["column"]}>
+              <Text fontWeight={["700"]}>{_rental?.client.name}</Text>
+              <Text>{_rental.car.plate}</Text>
+            </Flex>
 
-      {clients?.map((_client, key) => (
-        <Flex
-          key={key}
-          width={["100%"]}
-          height={["60px"]}
-          paddingX={["20px"]}
-          paddingY={["10px"]}
-          background={"cover"}
-          borderRadius={["10px"]}
-          justify={["space-between"]}
-          align={["center"]}
-        >
-          <Flex direction={["column"]}>
-            <Text fontWeight={["700"]}>{_client.name}</Text>
-            <Text>{_client.email}</Text>
+            <Flex direction={["row"]} gap={["20px"]}>
+              <DeleteIcon
+                onClick={() => {
+                  handleDelete(_rental);
+                }}
+                cursor={"pointer"}
+              />
+            </Flex>
           </Flex>
-
-          <Flex direction={["row"]} gap={["20px"]}>
-            <EditIcon
-              onClick={() => {
-                handleUpdate(_client);
-              }}
-              cursor={"pointer"}
-            />
-            <DeleteIcon
-              onClick={() => {
-                handleDelete(_client);
-              }}
-              cursor={"pointer"}
-            />
-          </Flex>
-        </Flex>
-      ))}
+        );
+      })}
     </Flex>
   );
 };
 
-export default ClientsList;
+export default RentalList;
