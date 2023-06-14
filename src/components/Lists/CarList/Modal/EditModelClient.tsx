@@ -85,7 +85,7 @@ const EditCarModal: FC<Props> = ({ isOpen, onClose, car: _car, updateCar }) => {
           padding={"40px"}
         >
           <Text fontSize={["28px"]} fontWeight={"700"} textAlign={["center"]}>
-            Editar care
+            Editar Carro
           </Text>
 
           <Flex

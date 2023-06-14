@@ -31,7 +31,12 @@ export default function Home() {
           onChange={(index) => setTabIndex(index)}
           overflow={"hidden"}
         >
-          <TabList width={["100%"]} background={"gray.100"} height={["60px"]}>
+          <TabList
+            width={["100%"]}
+            background={"gray.100"}
+            height={["60px"]}
+            top={[0]}
+          >
             <Tab width={"100%"}>Clientes</Tab>
             <Tab width={"100%"}>Carros</Tab>
             <Tab width={"100%"}>Locações</Tab>
