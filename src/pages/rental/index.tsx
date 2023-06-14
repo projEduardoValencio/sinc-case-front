@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import car from "@/providers/car/car";
 import { ICarResponse } from "@/interface/ICar";
 import DateStep from "@/components/NewRental/DateStep";
+import CarStep from "@/components/NewRental/CarStep";
 
 export const steps = [
   { title: "Datas", description: "Data de locação" },
@@ -106,7 +107,8 @@ export default function Home() {
           </Stepper>
 
           {/* <ClientStep step={step} setStep={setStep} /> */}
-          <DateStep step={step} setStep={setStep} />
+          {/* <DateStep step={step} setStep={setStep} /> */}
+          <CarStep step={step} setStep={setStep} />
         </Flex>
       </Flex>
     </Flex>

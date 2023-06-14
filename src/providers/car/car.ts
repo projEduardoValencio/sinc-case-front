@@ -1,10 +1,10 @@
-import { ICar } from "@/interface/ICar";
+import { ICar, ICarResponse } from "@/interface/ICar";
 import api from "../api";
 
 class Car {
   route: string = "/car";
 
-  async list(): Promise<ICar[]> {
+  async list(): Promise<ICarResponse[]> {
     try {
       const response = await api.get(this.route + "/all");
       return response.data;
