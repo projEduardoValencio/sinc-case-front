@@ -1,10 +1,10 @@
-import { IClient } from "@/interface/IClient";
+import { IClient, IClientResponse } from "@/interface/IClient";
 import api from "../api";
 
 class Client {
   route: string = "/client";
 
-  async list() {
+  async list(): Promise<IClientResponse[]> {
     try {
       const response = await api.get(this.route + "/all");
       return response.data;
@@ -26,7 +26,8 @@ class Client {
 
   async create(client: IClient) {
     try {
-      await api.post(this.route, client);
+      const response = await api.post(this.route, client);
+      return response.data;
     } catch (error) {
       console.error(error);
       throw error;

@@ -4,7 +4,7 @@ import api from "../api";
 class Car {
   route: string = "/car";
 
-  async list() {
+  async list(): Promise<ICar[]> {
     try {
       const response = await api.get(this.route + "/all");
       return response.data;
@@ -47,6 +47,16 @@ class Car {
   async delete(id: number) {
     try {
       const response = await api.delete(this.route + `?id=${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async availableCars(): Promise<ICar> {
+    try {
+      const response = await api.get(this.route + `/available`);
       return response.data;
     } catch (error) {
       console.error(error);
