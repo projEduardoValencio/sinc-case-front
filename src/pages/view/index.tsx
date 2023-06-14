@@ -3,7 +3,8 @@ import TopBar from "@/components/TopBar";
 import RegisterCard from "@/components/RegisterCard";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { useState } from "react";
-import ClientsList from "@/components/Lists/ClientsList.tsx";
+import ClientsList from "@/components/Lists/ClientsList";
+import CarsList from "@/components/Lists/CarList";
 
 export default function Home() {
   const [tabIndex, setTabIndex] = useState<number>(0);
@@ -41,7 +42,7 @@ export default function Home() {
             </TabPanel>
 
             <TabPanel width={"inherit"} height={"100%"}>
-              Carros
+              <CarsList />
             </TabPanel>
 
             <TabPanel width={"inherit"} height={"100%"}>
