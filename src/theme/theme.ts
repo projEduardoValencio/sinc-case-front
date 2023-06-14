@@ -16,6 +16,8 @@ const Button = defineStyleConfig({
 const theme = extendTheme({
   colors: {
     primary: "#183884",
+    cover: "#D0D7E6",
+    coverHover: "#aabce4",
   },
   components: {
     Button,
