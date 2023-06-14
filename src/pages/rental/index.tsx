@@ -13,14 +13,14 @@ import {
   StepStatus,
   StepTitle,
   Stepper,
-  useSteps,
-  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import car from "@/providers/car/car";
-import { ICarResponse } from "@/interface/ICar";
 import DateStep from "@/components/NewRental/DateStep";
 import CarStep from "@/components/NewRental/CarStep";
+import ClientStep from "@/components/NewRental/ClientStep";
+import ConfirmStep from "@/components/NewRental/ConfirmStep";
+import { getSelectedCar } from "@/utils/localStorage/car";
+import { getSelectedClientStorage } from "@/utils/localStorage/client";
 
 export const steps = [
   { title: "Datas", description: "Data de locação" },
@@ -30,24 +30,33 @@ export const steps = [
 ];
 
 export default function Home() {
-  const toast = useToast();
-  const [cars, setCars] = useState<ICarResponse[]>([]);
   const [step, setStep] = useState<number>(0);
 
   useEffect(() => {
-    car
-      .list()
-      .then((data) => {
-        setCars(data);
-      })
-      .catch((e) => {
-        console.error(e);
-        toast({
-          title: "Erro ao requisitar clients",
-          status: "error",
-        });
-      });
+    const car = getSelectedCar();
+    const _client = getSelectedClientStorage();
+    if (_client != undefined) {
+      setStep(3);
+      return;
+    }
+    if (car != undefined) {
+      setStep(2);
+      return;
+    }
   }, []);
+
+  const routeStep = () => {
+    switch (step) {
+      case 0:
+        return <DateStep step={step} setStep={setStep} />;
+      case 1:
+        return <CarStep step={step} setStep={setStep} />;
+      case 2:
+        return <ClientStep step={step} setStep={setStep} />;
+      case 3:
+        return <ConfirmStep step={step} setStep={setStep} />;
+    }
+  };
 
   return (
     <Flex
@@ -106,9 +115,7 @@ export default function Home() {
             ))}
           </Stepper>
 
-          {/* <ClientStep step={step} setStep={setStep} /> */}
-          {/* <DateStep step={step} setStep={setStep} /> */}
-          <CarStep step={step} setStep={setStep} />
+          {routeStep()}
         </Flex>
       </Flex>
     </Flex>

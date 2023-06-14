@@ -10,12 +10,14 @@ export const setSelectedCar = (car: ICarResponse) => {
   }
 };
 
-export const getSelectedCar = (): ICarResponse => {
+export const getSelectedCar = (): ICarResponse | undefined => {
   try {
-    return JSON.parse(localStorage.getItem(carKey) || "") as ICarResponse;
+    return JSON.parse(localStorage.getItem(carKey) || "") as
+      | ICarResponse
+      | undefined;
   } catch (error) {
-    console.log("Error getting selected Car", error);
-    throw new Error("Error getting selected Car");
+    console.error(error);
+    return undefined;
   }
 };
 

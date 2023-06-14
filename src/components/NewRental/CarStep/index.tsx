@@ -3,9 +3,13 @@ import { ICarResponse } from "@/interface/ICar";
 import { IClientResponse } from "@/interface/IClient";
 import car from "@/providers/car/car";
 import client from "@/providers/client/client";
+import { clearSelectedCar, setSelectedCar } from "@/utils/localStorage/car";
 import { setSelectedClientStorage } from "@/utils/localStorage/client";
+import { clearSelectedDatePeriod } from "@/utils/localStorage/date";
+import { clearAllStorageRental } from "@/utils/localStorage/keys";
 import { SearchIcon } from "@chakra-ui/icons";
 import {
+  Button,
   Flex,
   Input,
   InputGroup,
@@ -21,7 +25,6 @@ interface Props {
 const CarStep: FC<Props> = ({ step, setStep }) => {
   const [cars, setCars] = useState<ICarResponse[]>([]);
   const [filteredCars, setFilteredCars] = useState<ICarResponse[]>([]);
-  const [selectedCar, setSelectedCar] = useState<ICarResponse>();
 
   const toast = useToast();
 
@@ -152,6 +155,39 @@ const CarStep: FC<Props> = ({ step, setStep }) => {
             </Flex>
           );
         })}
+      </Flex>
+
+      <Flex
+        className="action-buttons"
+        direction={["row"]}
+        height={["60px"]}
+        width={["100%"]}
+        justify={"space-between"}
+        align={["end"]}
+      >
+        <Button
+          variant={"primary"}
+          background={"red"}
+          height={["30px"]}
+          color={"white"}
+          width={"140px"}
+          onClick={() => {
+            clearAllStorageRental();
+          }}
+        >
+          Remover Estado
+        </Button>
+
+        <Button
+          variant={"primary"}
+          background={"primary"}
+          height={["30px"]}
+          color={"white"}
+          width={["140px"]}
+          onClick={() => setStep(step - 1)}
+        >
+          Voltar Passo
+        </Button>
       </Flex>
     </Flex>
   );

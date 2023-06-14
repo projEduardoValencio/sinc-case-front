@@ -14,15 +14,16 @@ export const setSelectedDatePeriod = (datePeriod: IDatePeriod) => {
   }
 };
 
-export const getSelectedDatePeriod = (): IDatePeriod => {
+export const getSelectedDatePeriod = (): IDatePeriod | undefined => {
   try {
-    return JSON.parse(localStorage.getItem(datePeriodKey) || "") as IDatePeriod;
+    return JSON.parse(localStorage.getItem(datePeriodKey) || "") as
+      | IDatePeriod
+      | undefined;
   } catch (error) {
-    console.log("Error getting selected Date Period", error);
-    throw new Error("Error getting selected Date Period");
+    return undefined;
   }
 };
 
 export const clearSelectedDatePeriod = () => {
-  localStorage.removeItem(carKey);
+  localStorage.removeItem(datePeriodKey);
 };

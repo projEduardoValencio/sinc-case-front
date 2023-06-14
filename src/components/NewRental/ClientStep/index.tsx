@@ -2,8 +2,10 @@
 import { IClientResponse } from "@/interface/IClient";
 import client from "@/providers/client/client";
 import { setSelectedClientStorage } from "@/utils/localStorage/client";
+import { clearAllStorageRental } from "@/utils/localStorage/keys";
 import { SearchIcon } from "@chakra-ui/icons";
 import {
+  Button,
   Flex,
   Input,
   InputGroup,
@@ -59,6 +61,12 @@ const ClientStep: FC<Props> = ({ step, setStep }) => {
       setFilteredClients(_filteredClients);
     }
   };
+
+  const selectClient = (_client: IClientResponse) => {
+    setSelectedClientStorage(_client);
+    setStep(step + 1);
+  };
+
   return (
     <Flex
       className="client-form"
@@ -110,7 +118,7 @@ const ClientStep: FC<Props> = ({ step, setStep }) => {
                   background: "var(--chakra-colors-coverHover);",
                 },
               }}
-              onClick={() => setSelectedClientStorage(client)}
+              onClick={() => selectClient(client)}
             >
               <Flex direction={["column"]} justify={["space-between"]}>
                 <Flex fontWeight={["700"]}>{client.name}</Flex>
@@ -141,6 +149,40 @@ const ClientStep: FC<Props> = ({ step, setStep }) => {
             </Flex>
           );
         })}
+      </Flex>
+
+      <Flex
+        className="action-buttons"
+        direction={["row"]}
+        height={["60px"]}
+        width={["100%"]}
+        justify={"space-between"}
+        align={["end"]}
+      >
+        <Button
+          variant={"primary"}
+          background={"red"}
+          height={["30px"]}
+          color={"white"}
+          width={"140px"}
+          onClick={() => {
+            clearAllStorageRental();
+            setStep(0);
+          }}
+        >
+          Remover Estado
+        </Button>
+
+        <Button
+          variant={"primary"}
+          background={"primary"}
+          height={["30px"]}
+          color={"white"}
+          width={["140px"]}
+          onClick={() => setStep(step - 1)}
+        >
+          Voltar Passo
+        </Button>
       </Flex>
     </Flex>
   );

@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { steps } from "@/pages/rental";
 import {
-  clearSelectedDatePeriod,
+  getSelectedDatePeriod,
   setSelectedDatePeriod,
 } from "@/utils/localStorage/date";
+import { clearAllStorageRental } from "@/utils/localStorage/keys";
 import {
   Button,
   Flex,
@@ -22,8 +23,18 @@ interface Props {
 const DateStep: FC<Props> = ({ step, setStep }) => {
   const toast = useToast();
 
-  const [startDate, setStartDate] = useState<Date>();
-  const [endDate, setEndDate] = useState<Date>();
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const loadPeriodDate = getSelectedDatePeriod();
+    console.log(loadPeriodDate);
+    if (loadPeriodDate) {
+      setStartDate(loadPeriodDate.startDate);
+      setEndDate(loadPeriodDate.endDate);
+      console.log("DATE: ", new Date().toLocaleDateString());
+    }
+  }, []);
 
   const nextStep = () => {
     if (!startDate || !endDate) {
@@ -38,6 +49,11 @@ const DateStep: FC<Props> = ({ step, setStep }) => {
       return;
     }
   };
+
+  const formatDate = (date: Date) => {
+    return date.toISOString().substring(0, 10);
+  };
+
   return (
     <Flex
       className="client-form"
@@ -62,7 +78,9 @@ const DateStep: FC<Props> = ({ step, setStep }) => {
               {/* <CalendarIcon /> */}
             </InputLeftAddon>
             <Input
-              type="datetime-local"
+              id="start-date"
+              type="date"
+              value={formatDate(new Date(startDate))}
               background={"gray.300"}
               css={`
                 ::-webkit-calendar-picker-indicator {
@@ -90,7 +108,9 @@ const DateStep: FC<Props> = ({ step, setStep }) => {
               {/* <CalendarIcon /> */}
             </InputLeftAddon>
             <Input
-              type="datetime-local"
+              id="end-date"
+              value={formatDate(new Date(endDate))}
+              type="date"
               background={"gray.300"}
               css={`
                 ::-webkit-calendar-picker-indicator {
@@ -120,7 +140,8 @@ const DateStep: FC<Props> = ({ step, setStep }) => {
           color={"white"}
           width={"140px"}
           onClick={() => {
-            clearSelectedDatePeriod();
+            clearAllStorageRental();
+            setStep(0);
           }}
         >
           Remover Estado

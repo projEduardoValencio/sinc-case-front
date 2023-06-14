@@ -10,12 +10,14 @@ export const setSelectedClientStorage = (client: IClientResponse) => {
   }
 };
 
-export const getSelectedClientStorage = (): IClientResponse => {
+export const getSelectedClientStorage = (): IClientResponse | undefined => {
   try {
-    return JSON.parse(localStorage.getItem(clientKey) || "") as IClientResponse;
+    const resp = JSON.parse(localStorage.getItem(clientKey) || "") as
+      | IClientResponse
+      | undefined;
+    return resp;
   } catch (error) {
-    console.log("Error getting selected Client", error);
-    throw new Error("Error getting selected Client");
+    return undefined;
   }
 };
 
