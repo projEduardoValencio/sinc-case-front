@@ -4,8 +4,8 @@ import { IClientResponse } from "./IClient";
 export interface ICarRental {
   client_id: number;
   car_id: number;
-  startDate: Date;
-  endDate: Date;
+  start_date: Date;
+  end_date: Date;
 }
 
 export interface ICarRentalResponse {

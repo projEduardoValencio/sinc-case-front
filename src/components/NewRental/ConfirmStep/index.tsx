@@ -56,8 +56,8 @@ const ConfirmStep: FC<Props> = ({ step, setStep }) => {
     try {
       setStep(4);
       await rental.create({
-        startDate: datePeriod?.startDate!,
-        endDate: datePeriod?.endDate!,
+        start_date: datePeriod?.startDate!,
+        end_date: datePeriod?.endDate!,
         client_id: client?.id!,
         car_id: car?.id!,
       });
