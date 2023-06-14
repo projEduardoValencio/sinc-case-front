@@ -14,6 +14,10 @@ const Button = defineStyleConfig({
 });
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: false,
+  },
   colors: {
     primary: "#183884",
     cover: "#D0D7E6",
