@@ -4,6 +4,7 @@ import TopBar from "@/components/TopBar";
 import {
   Box,
   Button,
+  CircularProgress,
   Step,
   StepDescription,
   StepIcon,
@@ -55,6 +56,8 @@ export default function Home() {
         return <ClientStep step={step} setStep={setStep} />;
       case 3:
         return <ConfirmStep step={step} setStep={setStep} />;
+      case 4:
+        return <CircularProgress isIndeterminate color="primary" />;
     }
   };
 

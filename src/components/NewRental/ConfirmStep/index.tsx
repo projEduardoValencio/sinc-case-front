@@ -2,6 +2,7 @@
 import { ICarResponse } from "@/interface/ICar";
 import { IClientResponse } from "@/interface/IClient";
 import { steps } from "@/pages/rental";
+import rental from "@/providers/rental/rental";
 import { getSelectedCar } from "@/utils/localStorage/car";
 import { getSelectedClientStorage } from "@/utils/localStorage/client";
 import {
@@ -51,7 +52,30 @@ const ConfirmStep: FC<Props> = ({ step, setStep }) => {
     }
   }, []);
 
-  const submit = () => {};
+  const submit = async () => {
+    try {
+      setStep(4);
+      await rental.create({
+        start_date: datePeriod?.startDate!,
+        end_date: datePeriod?.endDate!,
+        client_id: client?.id!,
+        car_id: car?.id!,
+      });
+      toast({
+        title: "Locação registrada com sucesso",
+        status: "success",
+      });
+      clearAllStorageRental();
+
+      setStep(0);
+    } catch (error) {
+      setStep(3);
+      toast({
+        title: "Erro ao registrar locação",
+        status: "error",
+      });
+    }
+  };
 
   if (datePeriod === undefined || car === undefined) {
     return <CircularProgress isIndeterminate />;

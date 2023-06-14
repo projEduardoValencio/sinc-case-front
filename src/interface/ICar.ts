@@ -7,6 +7,7 @@ export interface ICar {
 }
 
 export interface ICarResponse {
+  id: number;
   plate: string;
   model: string;
   brand: string;
